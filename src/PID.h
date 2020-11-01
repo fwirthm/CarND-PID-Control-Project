@@ -29,7 +29,13 @@ class PID {
    * Calculate the total PID error.
    * @output The total PID error
    */
-  double TotalError();
+  double GetTotalError();
+  
+  double CalcResponse(double cte);
+  
+  double GetKp();
+  double GetKi();
+  double GetKd();
 
  private:
   /**
@@ -45,6 +51,9 @@ class PID {
   double Kp;
   double Ki;
   double Kd;
+  double LastError;
+  double TotalError;
+
 };
 
 #endif  // PID_H
