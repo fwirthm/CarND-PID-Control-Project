@@ -1,7 +1,8 @@
 #include "PID.h"
+#include <stdlib.h>
 
 /**
- * TODO: Complete the PID class. You may add any additional desired functions.
+ * Complete the PID class. You may add any additional desired functions.
  */
 
 PID::PID() {}
@@ -10,21 +11,55 @@ PID::~PID() {}
 
 void PID::Init(double Kp_, double Ki_, double Kd_) {
   /**
-   * TODO: Initialize PID coefficients (and errors, if needed)
+   * Initialize PID coefficients (and errors, if needed)
    */
+  Kp = Kp_;
+  Ki = Ki_;
+  Kd = Kd_;
+  LastError = 0.0;
+  TotalError = 0.0;
 
 }
 
 void PID::UpdateError(double cte) {
   /**
-   * TODO: Update PID errors based on cte.
+   * Update PID errors based on cte.
    */
+  LastError = cte;
+  TotalError += abs(cte);
 
 }
 
-double PID::TotalError() {
+double PID::GetTotalError() {
   /**
-   * TODO: Calculate and return the total error
+   * Calculate and return the total error
    */
-  return 0.0;  // TODO: Add your total error calc here!
+
+  return TotalError; 
+}
+
+
+double PID::CalcResponse(double cte) {
+  /**
+   * Calculate the controler resposne
+   */
+  p_error = Kp*cte;
+  d_error = Kd*(cte-LastError);
+  UpdateError(cte);
+  i_error = Ki*TotalError;
+  
+  //double response = -p_error -(Kd*(cte-LastError)) ;//-(Ki*np.sum(ctes));
+  double response = - p_error - i_error - d_error;
+
+  return response; 
+}
+
+double PID::GetKp(){
+  return Kp; 
+}
+double PID::GetKi(){
+  return Ki; 
+}
+double PID::GetKd(){
+  return Kd; 
 }
