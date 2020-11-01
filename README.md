@@ -3,6 +3,32 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Project Overview
+The goal of this project was to implement and optimize a PID controler in order to smoothly drive a vehicle around a simulated round track.
+
+## PID Explenation
+The proportial part of PID controler (P) ensures that the vehicles steers back to the center of the lane. Thereby the absolute value of the streering command is proportional to the displacement to the centerline. This means that the controler induces larger steering angles if the displacement is larger.
+
+The integral part of PID controler (I) integrates the error over the whole runtime. 
+
+The differential part of PID controler (D) monitors the development of the displacement error over time. If the error is already decreasing we can slowly reduce the strength of our steering commands and converge to our desired position. Therefore, it reduces oversteering.
+
+
+## PID Parameter Optimization
+To Optimize the PID parameters the "twiddle" algorithm presented in the lesson was used. Therefore, the parameters were initialized with values close to the ones in the lesson which enabled the car to drive a full round on the track. These values were found manually and are set as follows:
+
+*KpInit = 0.25
+*KiInit = 0.0003
+*KdInit = 3.4
+
+One controller parametrization is used to drive one full round around the track. If the parameters decreased the overall error, the current parameter decent direction is keept and the step size is increased. If both decent directions can not show improvements the step size is decreased.
+
+Each parameter is optimized for a maximum of 10 rounds. The optimized parameters are:
+
+*Kp = 0.25
+*Ki = 0.00031539
+*Kd = 3.47695
+
 ## Dependencies
 
 * cmake >= 3.5
